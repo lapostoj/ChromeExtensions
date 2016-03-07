@@ -56,27 +56,38 @@ function getCurrentTabUrl(callback) {
  */
 function getImageUrl(searchTerm, callback, errorCallback) {
   // Google image search - 100 searches per day.
-  // https://developers.google.com/image-search/
-  var searchUrl = 'https://ajax.googleapis.com/ajax/services/search/images' +
-    '?v=1.0&q=' + encodeURIComponent(searchTerm);
+  // https://developers.google.com/image-search/ NO LONGER AVAILABLE
+  // USE: https://developers.google.com/custom-search/
+
+  // Here key and cx don't give access to a lot of stuff.
+  // Just a basic image search engine.
+  var params = {};
+  params.key = 'AIzaSyB1kbHqhvFbYynfZqagbo-bprGa8xXd4F8';
+  params.cx = '010234836619186862498%3Axhfxkijzy70';
+  params.type = 'image';
+  params.num = 10;
+  params.start = 1;
+  
+  var searchUrl = 'https://www.googleapis.com/customsearch/v1?key=' + params.key +
+        '&cx='+ params.cx + '&q=' + encodeURIComponent(searchTerm) + '&searchType=' + params.type + 
+        '&alt=' + 'json' + '&num=' + params.num + '&start=' + params.start;       
   var x = new XMLHttpRequest();
   x.open('GET', searchUrl);
   // The Google image search API responds with JSON, so let Chrome parse it.
   x.responseType = 'json';
   x.onload = function() {
-    // Parse and process the response from Google Image Search.
-    var response = x.response;
-    if (!response || !response.responseData || !response.responseData.results ||
-        response.responseData.results.length === 0) {
+    // Parse and process the response from the Custon Search Engine.
+        var response = x.response;
+    if (!response || response.items.length === 0) {
       errorCallback('No response from Google Image search!');
       return;
     }
-    var firstResult = response.responseData.results[0];
+    var firstResult = response.items[0];
     // Take the thumbnail instead of the full image to get an approximately
     // consistent image size.
-    var imageUrl = firstResult.tbUrl;
-    var width = parseInt(firstResult.tbWidth);
-    var height = parseInt(firstResult.tbHeight);
+    var imageUrl = firstResult.image.thumbnailLink;
+    var width = parseInt(firstResult.image.thumbnailWidth);
+    var height = parseInt(firstResult.image.thumbnailHeight);
     console.assert(
         typeof imageUrl == 'string' && !isNaN(width) && !isNaN(height),
         'Unexpected respose from the Google Image Search API!');

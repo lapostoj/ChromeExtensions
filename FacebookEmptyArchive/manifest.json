@@ -1,0 +1,25 @@
+{
+    "manifest_version": 2,
+    "name": "Facebook Empty Archive",
+    "version": "1.0",
+
+    "description": "This extension is used to empty the archive of the 'Saved articles' on Facebook automatically.",
+    "icons": {
+        "16": "img/icon16.png",
+        "48": "img/icon48.png",
+        "128": "img/icon128.png"
+    },
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "page_action": {
+        "default_title": "Facebook Empty Archive",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "declarativeContent",
+        "activeTab",
+        "https://www.facebook.com/saved/?cref=28/&collection_token=*"
+    ]
+}

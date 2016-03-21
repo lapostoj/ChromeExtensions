@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+    "name": "Cookies Deleter",
+    "version": "1.0",
+
+    "description": "This extension is used to delete the cookies associated to the current website.",
+    "icons": {
+        "16": "img/icon16.png",
+        "48": "img/icon48.png",
+        "128": "img/icon128.png"
+    },
+    "browser_action": {
+        "default_title": "Cookies Deleter",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "cookies",
+        "tabs",
+        "http://*/*",
+        "https://*/*"
+    ]
+}

@@ -1,11 +1,13 @@
+var activeTab;
 var domain;
 var num = document.getElementById("number");
 var website = document.getElementById("website");
+var reload = 'window.location.reload();';
 
 chrome.tabs.query({active: true, currentWindow: true}, function(tabsArray) {
     // since only one tab should be active and in the current window at once
     // the return variable should only have one entry bt is still an array
-    var activeTab = tabsArray[0];
+    activeTab = tabsArray[0];
     domain = extractDomain(activeTab.url);
     website.innerHTML = domain;
 });
@@ -17,6 +19,7 @@ chrome.cookies.getAll({}, function (cookies) {
         console.log('Can\'t get cookie! Check the name!');
     }
 });
+chrome.tabs.executeScript(activeTab, {code: reload});
 
 function removeCookies(cookies) {
     var deleted = 0;

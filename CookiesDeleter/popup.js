@@ -12,14 +12,25 @@ chrome.tabs.query({active: true, currentWindow: true}, function(tabsArray) {
     website.innerHTML = domain;
 });
 
-chrome.cookies.getAll({}, function (cookies) {
-    if (cookies) {
-        removeCookies(cookies);
-    } else {
-        console.log('Can\'t get cookie! Check the name!');
-    }
+// Use default value true
+chrome.storage.sync.get({
+    autoreload: true
+}, function(items) {
+    main(items.autoreload)
 });
-chrome.tabs.executeScript(activeTab, {code: reload});
+
+function main(autoreload) {
+    chrome.cookies.getAll({}, function (cookies) {
+        if (cookies) {
+            removeCookies(cookies);
+            if (autoreload) {
+                chrome.tabs.executeScript(activeTab.id, {code: reload});
+            }
+        } else {
+            console.log('Can\'t get cookie! Check the name!');
+        }
+    });
+}
 
 function removeCookies(cookies) {
     var deleted = 0;

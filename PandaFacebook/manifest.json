@@ -1,0 +1,31 @@
+{
+    "manifest_version": 2,
+    "name": "Panda Facebook",
+    "version": "1.0",
+
+    "description": "This extension apply a panda theme on different part of Facebook.",
+    "icons": {
+        "16": "img/icon16.png",
+        "48": "img/icon48.png",
+        "128": "img/icon128.png"
+    },
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "page_action": {
+        "default_title": "Panda Facebook"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://www.facebook.com/*", "https://www.messenger.com/t/*"],
+            "js": ["pandifyFacebook.js"]
+        }
+    ],
+    "permissions": [
+        "declarativeContent",
+        "tabs",
+        "https://www.facebook.com/*",
+        "https://www.messenger.com/t/*"
+    ]
+}
